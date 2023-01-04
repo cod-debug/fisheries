@@ -1,0 +1,34 @@
+.page-header {
+	background-size: cover!important;
+	background-attachment: fixed!important;
+	background-position: center;
+}
+
+#publicNav {
+	background-color: white;
+}
+#publicNav .nav-link{
+	color: #047940;
+	font-weight: bold;
+	margin: 0 10px;
+}
+#publicNav .nav-link:hover{
+	color: white;
+	background-color: #047940;
+	transition: .5s;
+	font-weight: bold;
+}
+#publicLogo {
+	width: 15%;
+}
+
+.justify-content-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+.close{
+	border: 0!important;
+	outline: 0!important;
+}
