@@ -1,4 +1,7 @@
 <?php require("./requests/config.php"); ?>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
 <?php $passing_average = 80; ?>
 <div class="container-fluid">
     <form method="POST">
@@ -36,6 +39,28 @@
     </form> 
     <?php if(isset($_POST['generate_analytics'])): ?>
     <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    RESULTS BY CATEGORY
+                </div>
+                <div class="card-body">
+                    <canvas id="oilChart" width="600" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    RESULTS BY CATEGORY
+                </div>
+                <div class="card-body">
+                    <canvas id="lineChart" width="600" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-9">
             <div class="card">
                 <div class="card-header">
@@ -45,7 +70,7 @@
                     <?php
                         extract($_POST);
 
-                        $select_batch_q = "SELECT  * FROM `batch`
+                        $select_batch_q = "SELECT * FROM `batch`
                         LEFT JOIN `users`
                         ON `users`.`user_id` = `batch`.`user_id`
                         WHERE DATE(`batch`.`batch_created_at`) 
@@ -102,8 +127,12 @@
                                         $num_of_correct->execute();
                                         $num_of_correct_result = $num_of_correct->get_result();
                                         $correct_count = $num_of_correct_result->fetch_object()->correct_count;
-
-                                        $average = ($correct_count / $ans_count) * 100;
+                                        
+                                        if($correct_count > 0){
+                                            $average = ($correct_count / $ans_count) * 100;
+                                        } else {
+                                            $average = 0;
+                                        }
 
                                         if($average >= $passing_average){
                                             $rating = "passed";
@@ -145,7 +174,7 @@
                                                 } else {
                                                     $post_test_failed++;
                                                 }
-
+                                                $post_test_count++;
                                                 break;
                                         }   
 
@@ -254,7 +283,7 @@
                     <hr>
                         AVERAGE: <b class="text-primary"><?php echo number_format($pretest_passer_average, 0) ?>% PASSED</b>
                     <hr>
-
+                    <!-- 
                     <h3>FINAL REVIEW</h3>
                     <table class="w-100">
                         <tr>
@@ -269,11 +298,11 @@
                             <td>Total Failed: </td>
                             <th class="text-danger"><?php echo $final_review_failed ?></th>
                         </tr>
-                    </table>
-
+                    </table> -->
+<!-- 
                     <hr>
                         AVERAGE: <b class="text-primary"><?php echo number_format($final_review_passer_average, 0) ?>% PASSED</b>
-                    <hr>
+                    <hr> -->
 
                     <h3>POSTTEST</h3>
                     <table class="w-100">
@@ -305,3 +334,100 @@
     </div>
     <?php endif; ?>
 </div>
+<?php 
+    $select_all_category_query = "SELECT * FROM `categories`";
+    $selected = $mysqli->prepare($select_all_category_query);
+    $selected->execute();
+    $res = $selected->get_result();
+    
+    $category_names = array();
+    $category_correct_counts = array();
+    $questions_counts = array();
+
+    while($cat = $res->fetch_object()){
+
+        $select_qa_results_by_categories_correct = "SELECT * FROM `qa` 
+        LEFT JOIN `questions` ON `questions`.`qs_id` = `qa`.`qa_question` 
+        WHERE `questions`.`qs_category` = $cat->cat_id";
+        $selected_category_results_correct = $mysqli->prepare($select_qa_results_by_categories_correct);
+        $selected_category_results_correct->execute();
+
+        $cat_results_correct = $selected_category_results_correct->get_result();
+        // initialize counter variables
+        $correct_count = 0;
+        $questions_count = 0;
+
+        // loop all question and answers to check if it is correct
+        while($qs = $cat_results_correct->fetch_object()){
+            // this lines of codes are to check if answer is correct then store the count per category;
+            if($qs->qa_answer_is_correct){
+                $correct_count++;
+            };
+
+            // counter of all questions under this category;
+            $questions_count++;
+        }
+
+        $count_cat_res = $cat_results_correct->num_rows;
+
+        array_push($category_names, $cat->cat_name);
+        array_push($category_correct_counts, $correct_count);
+        array_push($questions_counts, $questions_count);
+    }
+?>
+<script>
+    var oilCanvas = document.getElementById("oilChart");
+    var lineChart = document.getElementById("lineChart");
+
+    Chart.defaults.global.defaultFontFamily = "Century Gothic";
+    Chart.defaults.global.defaultFontSize = 11;
+
+    var oilData = {
+        labels: [<?php echo '"'.implode('","', $category_names).'"' ?>],
+        datasets: [
+            {
+                
+                label: 'Correct counts per category',
+                data: [<?php echo '"'.implode('","', $category_correct_counts).'"' ?>],
+                backgroundColor: [
+                    "#FF6384",
+                    "#63FF84",
+                    "#84FF63",
+                    "#8463FF",
+                    "#6384FF",
+                    "#808000",
+                    "#7FFFD4",
+                    "#98AFC7",
+                    "#123456",
+                    "#4169E1"
+                ]
+            }]
+    };
+
+    var lineData = {
+        labels: [<?php echo '"'.implode('","', $category_names).'"' ?>],
+        datasets: [
+            {
+                label: 'Correct counts per category',
+                data: [<?php echo '"'.implode('","', $category_correct_counts).'"' ?>],
+                backgroundColor: "#808000"
+            },
+            {
+                label: 'Total answered questions per category',
+                data: [<?php echo '"'.implode('","', $questions_counts).'"' ?>],
+                backgroundColor: "#123456"
+            }
+        ]
+    };
+
+
+    var pieChart = new Chart(oilCanvas, {
+        type: 'pie',
+        data: oilData,
+    });
+
+    var lineChart = new Chart(lineChart, {
+        type: 'bar',
+        data: lineData,
+    });
+</script>

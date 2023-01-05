@@ -30,7 +30,7 @@
 
         if($stmt){
             // $inserted_id = $stmt->inserted_id;
-            echo '{"message": "Successfully sent", "code": 200}';
+            echo '{"message": "Successfully saved", "code": 200}';
         } else {
             echo '{"message": "Something went wrong.", "code": 500}';
         }

@@ -71,12 +71,9 @@
     $qu=$count_test_taken->get_result();
 
     $number_of_test_taken = $qu->fetch_object()->number_of_test_taken;
-    if($number_of_test_taken % 3 == 0){
+    if($number_of_test_taken % 2 == 0){
         $type_of_test = "pre";
         $parsed_type = "pre-test";
-    } else if ($number_of_test_taken % 3 == 1) {
-        $type_of_test = "review";
-        $parsed_type = "final test";
     } else {
         $type_of_test = "post";
         $parsed_type = "post test";
@@ -136,7 +133,7 @@
                     <div class="col-3">
                         <div class="nav flex-column nav-pills shadow-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             <?php while($cate = $c_res->fetch_object()): ?>
-                                <a class="nav-link" id="v-pills-<?php echo $cate->cat_name ?>-tab" data-toggle="pill" href="#v-<?php echo $cate->cat_name ?>-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                                <a class="nav-link" id="v-pills-<?php echo $cate->cat_id ?>-tab" data-toggle="pill" href="#v-<?php echo $cate->cat_id ?>-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
                                     <?php echo $cate->cat_name; ?>
                                 </a>
                             <?php endwhile; ?>
@@ -152,7 +149,7 @@
                         ?>
                         <div class="tab-content" id="v-pills-tabContent">
                             <?php while($ca = $c_ress->fetch_object()): ?>
-                                <div class="tab-pane fade" id="v-<?php echo $ca->cat_name ?>-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                <div class="tab-pane fade" id="v-<?php echo $ca->cat_id ?>-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                                     <h3><?php echo $ca->cat_name ?></h3>
                                     <hr>
                                     <?php
