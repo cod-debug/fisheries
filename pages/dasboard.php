@@ -21,7 +21,25 @@
         <!-- Container fluid  -->
         <!-- ============================================================== -->
         <div class="container-fluid">
-          <h1>WELCOME ADMIN!</h1>
+          <div>
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="flex justify-content-center p-5">
+                      <div>
+                          <h1>Welcome ADMIN!</h1>
+                          <h3>
+                              Fisheries Pre-Board Reviewer with Decision Support Analysis 
+                          </h3>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="">
+                      <img src="./assets/images/background/fishermen.jpg" class="w-100" />
+                  </div>
+              </div>
+          </div>
+          </div>
         </div>
         <!-- ============================================================== -->
         <!-- End Container fluid  -->

@@ -64,6 +64,8 @@
                  include("pages/add_question.php");
               }else if($page == "listquestion"){
                  include("pages/list_question.php");
+              }else if($page == "updatequestion"){
+                include("pages/update_question.php");
               }else if($page == "chats"){
                include("pages/chats.php");
               }else if($page == "analytics"){
