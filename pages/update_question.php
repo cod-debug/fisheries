@@ -11,11 +11,53 @@
         $question = $q_res->fetch_object();
     }
 ?>
-  <form class="form" method="POST" id="updateQues">
+<?php
+    if(isset($_POST['confirm_delete'])){
+        $id = $_POST['q_id'];
+
+        $update_status = "UPDATE `questions` SET qs_status = 'deleted' WHERE `qs_id` = $id";
+        $stmt = $mysqli->prepare($update_status);
+
+        if($stmt->execute()){
+            $stmt->get_result();
+            $succ = "SUCCESSFULLY DELETED";
+        } else {
+            $err = "SOMETHING WENT WRONG.";
+        }
+    }
+?>
+
+<?php if(isset($succ)): ?>
+    <script>
+        Swal.fire("Success", "SUCCESSFULLY SUBMITTED. PROCEED", "success").then(() => {
+            if(<?php echo $batch_type_of_test?> != 'post'){
+                window.location.href="index.php?link=listquestion";
+            } else {
+                window.location.href="index.php?link=listquestion";
+            }
+        });
+    </script>
+<?php endif; ?>
+
+<?php if(isset($err)): ?>
+    <script>
+        Swal.fire("Error", $err, "error");
+    </script>
+<?php endif; ?>
+
+  <form class="form" method="POST" id="deleteQues">
+    <?php if(isset($_GET['delete'])): ?>
+    <div class="right mb-2">
+        <p class="alert alert-danger">Are you sure you want to delete this question?</p>
+      <button class="btn btn-primary" type="submit" name="confirm_delete"><i class="fa fa-times-circle"></i> Confirm</button>
+      <a class="btn btn-outline-danger" href="index.php?link=listquestion"><i class="fa fa-times-circle"></i> Cancel</a>
+    </div>
+    <?php else:?>
     <div class="right mb-2">
       <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Save</button>
       <a class="btn btn-outline-danger" href="index.php?link=listquestion"><i class="fa fa-times-circle"></i> Cancel</a>
     </div>
+    <?php endif?>
     <div class="card shadow-2">
       <div class="card-header">
         <i class="fa fa-question-circle"></i> QUESTION

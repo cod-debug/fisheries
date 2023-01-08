@@ -27,7 +27,7 @@
           <select name="qs_category" required class="form-select">
             <option value="" selected disabled>- SELECT CATEGORY -</option>
             <?php
-              $cat="SELECT * FROM `categories`"; 
+              $cat="SELECT * FROM `categories` WHERE `cat_status` != 'deleted'"; 
               $c= $mysqli->prepare($cat) ;
               $c->execute() ;//ok
               $c_res=$c->get_result(); 

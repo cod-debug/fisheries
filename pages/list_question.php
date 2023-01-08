@@ -21,7 +21,7 @@
               <select name="qs_category" class="form-select">
                 <option value="" selected>All</option>
                 <?php
-                  $cat="SELECT * FROM `categories`"; 
+                  $cat="SELECT * FROM `categories` WHERE `cat_status` != 'deleted'"; 
                   $c= $mysqli->prepare($cat) ;
                   $c->execute() ;//ok
                   $c_res=$c->get_result(); 
@@ -61,15 +61,27 @@
         </thead>
         <tbody>
         <?php
-            $ret="SELECT * FROM `questions` LEFT JOIN `categories` on `questions`.`qs_category` = `categories`.`cat_id` WHERE `qs_category`"; 
+            $ret="SELECT * FROM `questions` LEFT JOIN `categories` on `questions`.`qs_category` = `categories`.`cat_id` WHERE `qs_category` AND `questions`.`qs_status` != 'deleted'"; 
 
             if(isset($_POST['filter'])){
               extract($_POST);
-              if($qs_category != '' || $type_of_test != ''){
+              if($qs_category != ''){
+                $ret="SELECT * FROM `questions` 
+                LEFT JOIN `categories` on `questions`.`qs_category` = `categories`.`cat_id` 
+                WHERE `questions`.`qs_category` = '$qs_category'"; 
+              } 
+
+              if($type_of_test != ''){
+                $ret="SELECT * FROM `questions` 
+                LEFT JOIN `categories` on `questions`.`qs_category` = `categories`.`cat_id` 
+                WHERE `questions`.`type_of_test` = '$type_of_test'"; 
+              } 
+
+              if($qs_category != '' && $type_of_test != ''){
                 $ret="SELECT * FROM `questions` 
                 LEFT JOIN `categories` on `questions`.`qs_category` = `categories`.`cat_id` 
                 WHERE `questions`.`qs_category` = '$qs_category'
-                OR `questions`.`type_of_test` = '$type_of_test'"; 
+                AND `questions`.`type_of_test` = '$type_of_test'"; 
               }
             }
 
@@ -91,7 +103,7 @@
               </td>
               <td>
                 <a class="btn btn-success text-white" href="index.php?link=updatequestion&id=<?php echo $row->qs_id ?>" title="EDIT QUESTION"><i class="fa fa-edit"></i> UPDATE</a>
-                <button class="btn btn-danger" title="DELETE QUESTION"><i class="fa fa-trash"></i> DELETE</button>
+                <a class="btn btn-danger" href="index.php?link=updatequestion&id=<?php echo $row->qs_id ?>&delete=1" title="DELETE QUESTION"><i class="fa fa-edit"></i> DELETE</a>
               </td>
             </tr>
           <?php endwhile; ?>

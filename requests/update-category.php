@@ -12,13 +12,17 @@
 
     if($res->num_rows == 0){
 
-        $stmt = "INSERT INTO `categories` (`cat_name`, `cat_aka`, `cat_desc`) VALUES (?, ?, ?)";
+        $stmt = "UPDATE `categories` 
+        SET `cat_name` = ?,
+        `cat_aka` = ?,
+        `cat_desc` = ?
+        WHERE `cat_id` = ?";
         $stmt = $mysqli->prepare($stmt);
-        $stmt->bind_param('sss', $cat_name, $cat_aka, $cat_desc);
+        $stmt->bind_param('sssi', $cat_name, $cat_aka, $cat_desc, $cat_id);
         $stmt->execute();
     
         if($stmt){
-            echo '{"message": "Successfully saved", "code": 200}';
+            echo '{"message": "Successfully updated", "code": 200}';
         } else {
             echo '
                 {"message": "Something went wrong.", "code": 500}';

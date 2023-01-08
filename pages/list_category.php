@@ -23,18 +23,19 @@
                       </thead>
                       <tbody>
                         <?php
-                          $ret="SELECT * FROM `categories`"; 
+                          $ret="SELECT * FROM `categories` WHERE `cat_status` != 'deleted' "; 
                           $stmt= $mysqli->prepare($ret) ;
                           $stmt->execute() ;//ok
                           $res=$stmt->get_result();
-                          
                           while($row = $res->fetch_object()):
+                            $hide = 0;
                             switch($row->cat_status){
                               case "active":
                                 $badge = "badge rounded-pill bg-success";
                                 break;
-                              case "inactive":
-                                $badge = "badge rounded-pill bg-muted";
+                              case "deleted":
+                                $badge = "badge rounded-pill bg-danger";
+                                $hide=1;
                                 break;
                             }
                         ?>
@@ -43,7 +44,10 @@
                             <td><?php echo $row->cat_desc ?></td>
                             <td><span class="<?php echo $badge ?>"><?php echo $row->cat_status ?></span></td>
                             <td>
-                              
+                              <a href="index.php?link=updatecategory&id=<?php echo $row->cat_id ?>" class="btn btn-success text-white" ><i class="fa fa-edit"></i> Update</a>
+                              <?php if(!$hide): ?>
+                                <a href="index.php?link=updatecategory&id=<?php echo $row->cat_id ?>&delete" class="btn btn-danger text-white" ><i class="fa fa-trash"></i> Delete</a>
+                              <?php endif; ?>
                             </td>
                         </tr>
                         <?php endwhile; ?>

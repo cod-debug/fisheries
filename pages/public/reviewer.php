@@ -63,7 +63,7 @@
     <script>
         Swal.fire("Error", $err, "error");
     </script>
-    <?php endif; ?>
+<?php endif; ?>
 <?php
     $count_taken = "SELECT COUNT(`batch_id`) AS number_of_test_taken FROM `batch` WHERE `user_id` = '$_SESSION[c_id]'";
     $count_test_taken= $mysqli->prepare($count_taken) ;
@@ -142,7 +142,7 @@
                     <div class="col-6">
                         <input type="text" name="ref_num" hidden value="<?php echo 'REV-'.$ref_num?>"/>
                         <?php 
-                            $catc="SELECT * FROM `categories`"; 
+                            $catc="SELECT * FROM `categories` WHERE `cat_status` != 'deleted'"; 
                             $cc= $mysqli->prepare($catc) ;
                             $cc->execute() ;//ok
                             $c_ress=$cc->get_result(); 
@@ -153,7 +153,7 @@
                                     <h3><?php echo $ca->cat_name ?></h3>
                                     <hr>
                                     <?php
-                                        $ret="SELECT * FROM `questions` WHERE `qs_category` = '$ca->cat_id' AND `type_of_test` = '$type_of_test' ORDER BY RAND()"; 
+                                        $ret="SELECT * FROM `questions` WHERE `qs_category` = '$ca->cat_id' AND `type_of_test` = '$type_of_test' AND `qs_status` != 'deleted' ORDER BY RAND()"; 
                                         $stmt= $mysqli->prepare($ret) ;
                                         $stmt->execute() ;//ok
                                         $res=$stmt->get_result();

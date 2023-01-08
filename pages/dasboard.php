@@ -28,7 +28,7 @@
                       <div>
                           <h1>Welcome ADMIN!</h1>
                           <h3>
-                              Fisheries Pre-Board Reviewer with Decision Support Analysis 
+                              Fisheries Pre-Board Reviewer
                           </h3>
                       </div>
                   </div>

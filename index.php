@@ -52,6 +52,8 @@
                  include("pages/add_category.php");
               }else if($page == "listcategory"){
                  include("pages/list_category.php");
+              }else if($page == "updatecategory"){
+                include("pages/update_category.php");
               }else if($page == "listsubject"){
                  include("pages/list_subject.php");
               }else if($page == "addsubject"){
