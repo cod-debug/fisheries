@@ -10,7 +10,7 @@
     $unq->execute();
     $res=$unq->get_result();
 
-    if($res->num_rows == 0){
+    if($res->num_rows >= 0){
         $stmt = "INSERT INTO `questions` (`qs_title`, `qs_subtitle`, `qs_category`, `type_of_test`) VALUES (?, ?, ?, ?)";
         $stmt = $mysqli->prepare($stmt);
         $stmt->bind_param('ssis', $qs_title, $qs_subtitle, $qs_category, $type_of_test);

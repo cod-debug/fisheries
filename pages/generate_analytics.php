@@ -334,6 +334,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
     </div>
     <?php endif; ?>
 </div>
+<?php if(isset($_POST['generate_analytics'])):?>
 <?php 
     $select_all_category_query = "SELECT * FROM `categories`";
     $selected = $mysqli->prepare($select_all_category_query);
@@ -348,7 +349,8 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 
         $select_qa_results_by_categories_correct = "SELECT * FROM `qa` 
         LEFT JOIN `questions` ON `questions`.`qs_id` = `qa`.`qa_question` 
-        WHERE `questions`.`qs_category` = $cat->cat_id";
+        WHERE `questions`.`qs_category` = $cat->cat_id
+        AND DATE(`qa`.`qa_created_at`) BETWEEN DATE('$from') AND DATE('$to')";
         $selected_category_results_correct = $mysqli->prepare($select_qa_results_by_categories_correct);
         $selected_category_results_correct->execute();
 
@@ -375,6 +377,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
         array_push($questions_counts, $questions_count);
     }
 ?>
+<?php endif; ?>
 <script>
     var oilCanvas = document.getElementById("oilChart");
     var lineChart = document.getElementById("lineChart");
