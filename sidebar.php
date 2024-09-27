@@ -13,6 +13,25 @@
                   aria-expanded="false"><i class="mdi mdi-view-dashboard">
                   </i><span class="hide-menu">Home</span></a>
               </li>
+
+              <li class="sidebar-item">
+                  <a
+                    class="sidebar-link has-arrow waves-effect waves-dark"
+                    href="javascript:void(0)"
+                    aria-expanded="false"><i class="mdi mdi-book"></i>
+                    <span class="hide-menu"> Modules </span></a>
+                  <ul aria-expanded="false" class="collapse first-level">
+                    <li class="sidebar-item">
+                       <a href="index.php?link=listmodule" class="sidebar-link"
+                        ><i class="mdi mdi-note-outline"></i
+                        ><span class="hide-menu"> List Modules  </span></a
+                      >
+                    </li>
+                    <li class="sidebar-item">
+                     <a href="index.php?link=addmodule" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Add Modules </span></a>
+                    </li>
+                  </ul>
+                </li>
              
              <li class="sidebar-item">
                 <a
@@ -53,25 +72,6 @@
                 </ul>
               </li>
             -->
-
-            <li class="sidebar-item">
-                <a
-                  class="sidebar-link has-arrow waves-effect waves-dark"
-                  href="javascript:void(0)"
-                  aria-expanded="false"><i class="mdi mdi-book"></i>
-                  <span class="hide-menu"> Modules </span></a>
-                <ul aria-expanded="false" class="collapse first-level">
-                  <li class="sidebar-item">
-                     <a href="index.php?link=listmodule" class="sidebar-link"
-                      ><i class="mdi mdi-note-outline"></i
-                      ><span class="hide-menu"> List Modules  </span></a
-                    >
-                  </li>
-                  <li class="sidebar-item">
-                   <a href="index.php?link=addmodule" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Add Modules </span></a>
-                  </li>
-                </ul>
-              </li>
 
            
 

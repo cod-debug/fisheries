@@ -71,12 +71,15 @@
     $qu=$count_test_taken->get_result();
 
     $number_of_test_taken = $qu->fetch_object()->number_of_test_taken;
-    if($number_of_test_taken % 2 == 0){
+    if($number_of_test_taken % 3 == 0){
         $type_of_test = "pre";
         $parsed_type = "pre-test";
-    } else {
+    } else if ($number_of_test_taken % 3 == 1) {
+        $type_of_test = "review";
+        $parsed_type = "Final Test";
+    } else if ($number_of_test_taken % 3 == 2) {
         $type_of_test = "post";
-        $parsed_type = "post test";
+        $parsed_type = "Posttest";
     }
 
     $take_next_test = isset($_POST['take_review']) || isset($_GET['next']);

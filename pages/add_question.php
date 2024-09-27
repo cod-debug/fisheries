@@ -19,6 +19,7 @@
           <select name="type_of_test" required class="form-select">
             <option value="" selected disabled>- SELECT TYPE OF TEST -</option>
             <option value="pre">PRE TEST</option>
+            <option value="review">FINAL TEST</option>
             <option value="post">POST TEST</option>
           </select>
         </div>
