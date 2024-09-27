@@ -60,18 +60,6 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    DSS
-                </div>
-                <div class="card-body">
-                    <p class="alert alert-info"><i class="fa fa-exclamation-triangle"></i> According to the result of analytics the category you must focus on enhancing during review is ''<b id="lowest_category"></b>''. With an average of <b id="lowest_average"></b>% correct answers.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-9">
             <div class="card">
                 <div class="card-header">
@@ -356,11 +344,7 @@
     $category_correct_counts = array();
     $questions_counts = array();
 
-    $current_lowest_average = 100;
-    $current_lowest_category = "";
     while($cat = $res->fetch_object()){
-        $current_average = 0;
-
 
         $select_qa_results_by_categories_correct = "SELECT * FROM `qa` 
         LEFT JOIN `questions` ON `questions`.`qs_id` = `qa`.`qa_question` 
@@ -383,37 +367,20 @@
 
             // counter of all questions under this category;
             $questions_count++;
-            
-        }
-
-        if($questions_count > 0 && $correct_count > 0) {
-            $current_average =  ($correct_count / $questions_count) * 100;
-            $current_average = number_format($current_average, 0);
-        } else {
-            $current_average = 0;
-        }
-        
-        if($current_average < $current_lowest_average){
-            $current_lowest_average = $current_average;
-            $current_lowest_category = $cat->cat_name;
         }
 
         $count_cat_res = $cat_results_correct->num_rows;
-        echo "
-            <script>
-                document.getElementById('lowest_category').innerHTML = '$current_lowest_category'; 
-                    document.getElementById('lowest_average').innerHTML = '$current_lowest_average';
-                </script>
-        ";
+
         array_push($category_names, $cat->cat_name);
         array_push($category_correct_counts, $correct_count);
         array_push($questions_counts, $questions_count);
     }
-    
 ?>
+<?php endif; ?>
 <script>
     var oilCanvas = document.getElementById("oilChart");
     var lineChart = document.getElementById("lineChart");
+
     Chart.defaults.global.defaultFontFamily = "Century Gothic";
     Chart.defaults.global.defaultFontSize = 11;
 
@@ -466,4 +433,3 @@
         data: lineData,
     });
 </script>
-<?php endif; ?>

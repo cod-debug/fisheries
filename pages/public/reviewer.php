@@ -199,10 +199,11 @@
                             </div>
                         </div>
                     </div>
-                <?php endif; ?>    
                 </div>
             </form>
+            <?php endif; ?>    
             
+            <?php if(!isset($ref_num)):?>
             <div class="card-body">
                     <?php
                         extract($_POST);
@@ -348,6 +349,8 @@
                         </table>
                     </div>
                 </div>
-        </div>
+        
+            </div>
+            <?php endif; ?>
     </div>
 </div>

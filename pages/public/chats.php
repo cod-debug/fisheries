@@ -17,7 +17,7 @@
   <form class="js-chatbox-form chatbox__form" id="sendChat">
     <input type="text" class="js-chatbox-input chatbox__form-input" placeholder="Type your message..." required>
     <input type="text" class="js-chatbox-input-id" value="<?php echo $_SESSION['c_id']; ?>" placeholder="Type your message..." required hidden>
-    <button class="chatbox__form-submit u-btn"><i class="fas fa-paper-plane"></i></button>
+    <button class="chatbox__form-submit u-btn" style="background-color: white;"><i class="fas fa-paper-plane"></i></button>
   </form>
   <!-- End of .chatbox__form -->
 </section>
